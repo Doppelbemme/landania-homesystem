@@ -1,0 +1,12 @@
+name: home-system
+version: '${project.version}'
+main: net.landania.homesystem.spigot.HomeSystem
+api-version: 1.19
+authors: [ Doppelbemme ]
+description: A homesystem for the landania.net server
+website: https://testaufgabe.landania.dev/
+commands:
+  sethome:
+  delhome:
+  home:
+  homes:
