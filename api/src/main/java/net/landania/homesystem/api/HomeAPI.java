@@ -55,4 +55,36 @@ public class HomeAPI {
         }
     }
 
+    /**
+     * 
+     */
+    public static void deleteHome(Connection connection, UUID uuid, String homeName) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM userhome WHERE Uuid = ? AND HomeName = ?")) {
+            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.setString(2, homeName.toLowerCase());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+    }
+
+    public static Location getHomeLocation(Connection connection, UUID uuid, String homeName) {
+        ResultSet resultSet;
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT WorldX, WorldY, WorldZ, WorldName FROM userhome WHERE Uuid = ? AND HomeName = ?")) {
+            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.setString(2, homeName.toLowerCase());
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return null;
+        }
+
+        if (resultSet.next()){
+            int x = resultSet.getInteger("WorldX");
+            int y = resultSet.getInteger("WorldY");
+            int z = resultSet.getInteger("WorldZ");
+            String worldName = resultSet.getString("WorldName");
+        }
+    }
+
 }

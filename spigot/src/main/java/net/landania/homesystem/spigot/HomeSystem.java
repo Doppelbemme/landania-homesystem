@@ -22,5 +22,6 @@ public final class HomeSystem extends JavaPlugin {
 
     private void registerCommands() {
         getCommand("sethome").setExecutor(new SetHomeCommand());
+        getCommand("delhome").setExecutor(new DelHomeCommand());
     }
 }

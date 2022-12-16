@@ -49,7 +49,11 @@ public class ConfigurationFile {
             configuration.messages.homeCreated = "&aDein Home wurde erfolgreich erstellt.";
             configuration.messages.homeDeleted = "&cDein Home wurde erfolgreich gelöscht.";
             configuration.messages.homeAlreadyExists = "&cEin Home mit diesem Name existiert bereits.";
+            configuration.messages.homeNotExisting = "&cDu hast kein Home mit diesem Namen.";
             configuration.messages.homeTeleport = "&aDu wurdest zu deinem Home teleportiert.";
+            configuration.messages.sethomeUsage = "&cNutze: /sethome <Name>";
+            configuration.messages.delhomeUsage = "&cNutze: /delhome <Name>";
+            configuration.messages.homeUsage = "&cNutze: /home <Name>";
 
             JsonFactory factory = new JsonFactory();
             try {

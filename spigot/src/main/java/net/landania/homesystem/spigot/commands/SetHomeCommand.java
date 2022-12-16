@@ -28,18 +28,27 @@ public class SetHomeCommand implements CommandExecutor {
             return false;
         }
 
-        //TODO: Add check for correct amount of arguments
-
-        String homeName = args[0].toLowerCase(Locale.ROOT);
-        if (HomeAPI.isHomeExisting(MySQL.getConnection(), player.getUniqueId(), homeName)) {
-            player.sendMessage(ConfigAPI.getMessage(configuration, "homeAlreadyExists"));
-            player.playSound(playerLocation, Sound.BLOCK_NOTE_BLOCK_BASS, 5, 0);
-            return false;
+        switch(args.length){
+            case 1:
+                String homeName = args[0].toLowerCase(Locale.ROOT);
+                if (HomeAPI.isHomeExisting(MySQL.getConnection(), player.getUniqueId(), homeName)) {
+                    player.sendMessage(ConfigAPI.getMessage(configuration, "homeAlreadyExists"));
+                    player.playSound(playerLocation, Sound.BLOCK_NOTE_BLOCK_BASS, 5, 0);
+                    return false;
+                }
+    
+                HomeAPI.addHome(MySQL.getConnection(), player.getUniqueId(), homeName, playerLocation.getBlockX(), playerLocation.getBlockY(), playerLocation.getBlockZ(), playerLocation.getWorld().getName());
+                player.sendMessage(ConfigAPI.getMessage(configuration, "homeCreated"));
+                player.playSound(playerLocation, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1);
+                return true;
+                break;
+            default:
+                player.sendMessage(ConfigAPI.getMessage(configuration, "sethomeUsage"));
+                player.playSound(playerLocation, Sound.BLOCK_NOTE_BLOCK_BASS, 5, 0);
+                return false;
+                break;
         }
-
-        HomeAPI.addHome(MySQL.getConnection(), player.getUniqueId(), homeName, playerLocation.getBlockX(), playerLocation.getBlockY(), playerLocation.getBlockZ(), playerLocation.getWorld().getName());
-        player.sendMessage(ConfigAPI.getMessage(configuration, "homeCreated"));
-        player.playSound(playerLocation, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1);
-        return true;
+        
+        return false;
     }
 }

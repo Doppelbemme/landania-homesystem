@@ -18,8 +18,10 @@ public class Configuration {
         public String homeCreated;
         public String homeDeleted;
         public String homeAlreadyExists;
+        public String homeNotExisting;
         public String homeTeleport;
-
+        public String sethomeUsage;
+        public String delhomeUsage;
     }
 
 }
