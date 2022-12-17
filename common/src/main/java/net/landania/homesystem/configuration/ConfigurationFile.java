@@ -9,11 +9,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ConfigurationFile {
     private static File configFile = new File("plugins/home-system/config.json");
 
-    public static File getConfigFile(){
+    public static File getConfigFile() {
         return configFile;
     }
 
@@ -47,6 +48,7 @@ public class ConfigurationFile {
             configuration.messages.noPermission = "&cDazu hast du keine Rechte!";
             configuration.messages.notAPlayer = "&cNur ein Spieler kann diesen Befehl benutzen!";
             configuration.messages.homeCreated = "&aDein Home wurde erfolgreich erstellt.";
+            configuration.messages.allHomesDeleted = "&aDeine Homes wurden erfolgreich gelöscht.";
             configuration.messages.homeDeleted = "&cDein Home wurde erfolgreich gelöscht.";
             configuration.messages.homeAlreadyExists = "&cEin Home mit diesem Name existiert bereits.";
             configuration.messages.homeNotExisting = "&cDu hast kein Home mit diesem Namen.";
@@ -54,6 +56,11 @@ public class ConfigurationFile {
             configuration.messages.sethomeUsage = "&cNutze: /sethome <Name>";
             configuration.messages.delhomeUsage = "&cNutze: /delhome <Name>";
             configuration.messages.homeUsage = "&cNutze: /home <Name>";
+            configuration.messages.homesUsage = "&cNutze: /homes";
+            configuration.gui = new Configuration.Gui();
+            configuration.gui.title = "&aDeine Homes";
+            configuration.gui.deleteItemName = "&cAlle Homes löschen";
+            configuration.gui.lore = Arrays.asList("&7Klicke, um dich zum Home zu teleportieren", "&a");
 
             JsonFactory factory = new JsonFactory();
             try {

@@ -18,8 +18,13 @@ import java.util.Locale;
 public class SetHomeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
         File configuration = ConfigurationFile.getConfigFile();
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ConfigAPI.getMessage(configuration, "notAPlayer"));
+            return false;
+        }
+
+        Player player = (Player) sender;
         Location playerLocation = player.getLocation();
 
         if (!player.hasPermission("homesystem.command.sethome")) {
@@ -28,7 +33,7 @@ public class SetHomeCommand implements CommandExecutor {
             return false;
         }
 
-        switch(args.length){
+        switch (args.length) {
             case 1:
                 String homeName = args[0].toLowerCase(Locale.ROOT);
                 if (HomeAPI.isHomeExisting(MySQL.getConnection(), player.getUniqueId(), homeName)) {
@@ -36,19 +41,15 @@ public class SetHomeCommand implements CommandExecutor {
                     player.playSound(playerLocation, Sound.BLOCK_NOTE_BLOCK_BASS, 5, 0);
                     return false;
                 }
-    
-                HomeAPI.addHome(MySQL.getConnection(), player.getUniqueId(), homeName, playerLocation.getBlockX(), playerLocation.getBlockY(), playerLocation.getBlockZ(), playerLocation.getWorld().getName());
+
+                HomeAPI.addHome(MySQL.getConnection(), player.getUniqueId(), homeName, playerLocation);
                 player.sendMessage(ConfigAPI.getMessage(configuration, "homeCreated"));
                 player.playSound(playerLocation, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1);
                 return true;
-                break;
             default:
                 player.sendMessage(ConfigAPI.getMessage(configuration, "sethomeUsage"));
                 player.playSound(playerLocation, Sound.BLOCK_NOTE_BLOCK_BASS, 5, 0);
                 return false;
-                break;
         }
-        
-        return false;
     }
 }

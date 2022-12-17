@@ -43,7 +43,7 @@ public class MySQL {
     }
 
     public static void setupTable() {
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS userhome (`Uuid` CHAR(36) NOT NULL , `HomeName` VARCHAR(255) NOT NULL , `WorldX` INT NOT NULL , `WorldY` INT NOT NULL , `WorldZ` INT NOT NULL , `WorldName` VARCHAR(255) NOT NULL ) ENGINE = InnoDB;")) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS userhome (`Uuid` CHAR(36) NOT NULL , `HomeName` VARCHAR(255) NOT NULL , `WorldX` DOUBLE NOT NULL , `WorldY` DOUBLE NOT NULL , `WorldZ` DOUBLE NOT NULL , `WorldYaw` FLOAT NOT NULL, `WorldPitch` Float NOT NULL, `WorldName` VARCHAR(255) NOT NULL ) ENGINE = InnoDB;")) {
             preparedStatement.executeUpdate();
         } catch (SQLException exc) {
             exc.printStackTrace();
