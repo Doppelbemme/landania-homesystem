@@ -15,10 +15,18 @@ public class MySQL {
 
     private static Connection connection;
 
+    public static Connection getConnection() {
+        return connection;
+    }
+
+    public static void setConnection(Connection Connection) {
+        connection = Connection;
+    }
+
     public static void connect() {
         if (isConnected()) return;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?autoReconnect=true", USERNAME, PASSWORD);
+            setConnection(DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?autoReconnect=true", USERNAME, PASSWORD));
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -27,20 +35,21 @@ public class MySQL {
     public static void disconnect() {
         if (!isConnected()) return;
         try {
-            connection.close();
+            getConnection().close();
+            setConnection(null);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
     public static void setupTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS userhome (`Uuid` CHAR(36) NOT NULL , `HomeName` VARCHAR(255) NOT NULL , `WorldX` INT NOT NULL , `WorldY` INT NOT NULL , `WorldZ` INT NOT NULL , `WorldName` VARCHAR(255) NOT NULL ) ENGINE = InnoDB;")) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS userhome (`Uuid` CHAR(36) NOT NULL , `HomeName` VARCHAR(255) NOT NULL , `WorldX` DOUBLE NOT NULL , `WorldY` DOUBLE NOT NULL , `WorldZ` DOUBLE NOT NULL , `WorldYaw` FLOAT NOT NULL, `WorldPitch` Float NOT NULL, `WorldName` VARCHAR(255) NOT NULL ) ENGINE = InnoDB;")) {
             preparedStatement.executeUpdate();
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("CREATE UNIQUE INDEX IF NOT EXISTS uuid_homename_index ON userhome (Uuid, HomeName);")) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement("CREATE UNIQUE INDEX IF NOT EXISTS uuid_homename_index ON userhome (Uuid, HomeName);")) {
             preparedStatement.executeUpdate();
         } catch (SQLException exc) {
             exc.printStackTrace();
@@ -49,7 +58,7 @@ public class MySQL {
 
     private static boolean isConnected() {
         try {
-            return Objects.nonNull(connection) && connection.isValid(2);
+            return Objects.nonNull(getConnection()) && getConnection().isValid(2);
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
